@@ -21,7 +21,7 @@
     </v-layout>
     <v-layout row wrap>
       <v-flex xs12 class="text-xs-center">
-      <p>Join us awesome meetup! </p>
+      <p>Join us awesome meetups! </p>
       </v-flex>
     </v-layout>
   </v-container>
