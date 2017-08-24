@@ -3,7 +3,11 @@
     <v-layout row wrap class="mt-2">
       <v-flex xs12>
         <v-carousel>
-          <v-carousel-item v-for="item in items" v-bind:src="item.src" :key="item.id">
+          <v-carousel-item
+          v-for="item in items"
+          v-bind:src="item.src"
+          :key="item.id"
+          v-on:click="onLoadMeetup(item.id)">
             <div class="title">
               {{item.title}}
             </div>
@@ -32,11 +36,16 @@ export default {
   data () {
     return {
       items: [
-        {src: '../../static/doc-images/carousel/beijing.jpg', id: 'bj0001', title: 'Meetup In BeiJing'},
-        {src: '../../static/doc-images/carousel/shanghai.jpg', id: 'sh0001', title: 'Meetup In ShangHai'},
-        {src: '../../static/doc-images/carousel/shengzhen.jpg', id: 'sz0001', title: 'Meetup In ShengZhen'},
-        {src: '../../static/doc-images/carousel/hongkong.jpg', id: 'hk0001', title: 'Meetup In HongKong'}
+        {src: '../../static/doc-images/carousel/beijing.jpg', id: '00000001', title: 'Meetup In BeiJing'},
+        {src: '../../static/doc-images/carousel/shanghai.jpg', id: '00000002', title: 'Meetup In ShangHai'},
+        {src: '../../static/doc-images/carousel/shengzhen.jpg', id: '00000003', title: 'Meetup In ShengZhen'},
+        {src: '../../static/doc-images/carousel/hongkong.jpg', id: '00000004', title: 'Meetup In HongKong'}
       ]
+    }
+  },
+  method: {
+    onLoadMeetup: function (id) {
+      this.$router.push('/meetups/' + id)
     }
   }
 }
