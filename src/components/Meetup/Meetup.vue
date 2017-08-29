@@ -8,7 +8,7 @@
           </v-card-title>
           <v-card-media
           src="../../static/doc-images/carousel/beijing.jpg"
-          height="130px"
+          height="300px"
           >
           </v-card-media>
           <v-card-text>

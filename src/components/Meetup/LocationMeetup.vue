@@ -1,19 +1,20 @@
 <template lang="html">
-  <v-container fluid flex>
+  <v-carousel style="cursor: pointer" >
+    <v-carousel-item
+    v-for="item in items"
+    v-bind:src="item.src"
+    :key="item.id"
+    @click="onLoadMeetup(item.id)">
+      <div class="title">
+        {{item.title}}
+      </div>
+    </v-carousel-item>
+  </v-carousel>
+  <!-- <v-container fluid flex>
     <v-layout row wrap class="mt-2">
-      <v-flex xs12>
-        <v-carousel>
-          <v-carousel-item
-          v-for="item in items"
-          v-bind:src="item.src"
-          :key="item.id"
-          v-on:click="onLoadMeetup(item.id)">
-            <div class="title">
-              {{item.title}}
-            </div>
-          </v-carousel-item>
-        </v-carousel>
-      </v-flex>
+      <v-flex xs12> -->
+
+      <!-- </v-flex>
     </v-layout>
     <v-layout row wrap>
       <v-flex xs12 sm6 class="text-xs-center text-sm-right">
@@ -28,7 +29,7 @@
       <p>Join us awesome meetup! </p>
       </v-flex>
     </v-layout>
-  </v-container>
+  </v-container> -->
 </template>
 
 <script>
@@ -43,8 +44,8 @@ export default {
       ]
     }
   },
-  method: {
-    onLoadMeetup: function (id) {
+  methods: {
+    onLoadMeetup (id) {
       this.$router.push('/meetups/' + id)
     }
   }

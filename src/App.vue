@@ -13,7 +13,7 @@
      </v-list>
      <v-list class="pt-0" dense>
        <v-divider></v-divider>
-       <v-list-tile v-for="item in items" :key="item.title" router :to="item.link">
+       <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
          <v-list-tile-action>
            <v-icon>{{ item.icon }}</v-icon>
          </v-list-tile-action>
@@ -25,14 +25,14 @@
   </v-navigation-drawer>
   <v-toolbar class="primary" dark>
     <v-toolbar-side-icon
-      @click.native.stop ="sideNav = !sideNav"
+      @click.stop ="sideNav = !sideNav"
       class="hidden-sm-and-up"></v-toolbar-side-icon>
     <v-toolbar-title>
       <router-link to="/" tag="span" style="cursor: pointer">{{ title }}</router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-only" v-for="item in items" :key="item.title">
-      <v-btn flat router :to="item.link">
+      <v-btn flat :to="item.link">
         <v-icon right dark>{{ item.icon }}</v-icon>{{ item.title }}
       </v-btn>
     </v-toolbar-items>
