@@ -34,14 +34,9 @@
 
 <script>
 export default {
-  data () {
-    return {
-      items: [
-        {src: '../../static/doc-images/carousel/beijing.jpg', id: '00000001', title: 'Meetup In BeiJing'},
-        {src: '../../static/doc-images/carousel/shanghai.jpg', id: '00000002', title: 'Meetup In ShangHai'},
-        {src: '../../static/doc-images/carousel/shengzhen.jpg', id: '00000003', title: 'Meetup In ShengZhen'},
-        {src: '../../static/doc-images/carousel/hongkong.jpg', id: '00000004', title: 'Meetup In HongKong'}
-      ]
+  computed: {
+    items () {
+      return this.$store.getters.featuredMeetups
     }
   },
   methods: {

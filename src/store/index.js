@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.store({
+export const store = new Vuex.Store({
   state: {
     loadedMeetups: [
       {src: '../../static/doc-images/carousel/beijing.jpg', id: 'sadfasdfw21', title: 'Meetup In BeiJing', date: '2017-08-23'},
@@ -24,9 +24,12 @@ export const store = new Vuex.store({
   },
   getters: {
     loadedMeetups (state) {
-      return state.loadedMeetups.sort((meetupA,meetupB) => {
+      return state.loadedMeetups.sort((meetupA, meetupB) => {
         return meetupA.date > meetupB.date
       })
+    },
+    featuredMeetups (state, getters) {
+      return getters.loadedMeetups.slice(0, 5)
     },
     loadedMeetup (state) {
       return (meetupId) => {
