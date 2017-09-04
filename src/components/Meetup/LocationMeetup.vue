@@ -10,26 +10,6 @@
       </div>
     </v-carousel-item>
   </v-carousel>
-  <!-- <v-container fluid flex>
-    <v-layout row wrap class="mt-2">
-      <v-flex xs12> -->
-
-      <!-- </v-flex>
-    </v-layout>
-    <v-layout row wrap>
-      <v-flex xs12 sm6 class="text-xs-center text-sm-right">
-        <v-btn large dark class="info" router to="/meetups">Nice Meetups</v-btn>
-      </v-flex>
-      <v-flex xs12 sm6 class="text-xs-center text-sm-left">
-        <v-btn large dark class="info" router to="/meetup/new">Create Meetup</v-btn>
-      </v-flex>
-    </v-layout>
-    <v-layout row wrap>
-      <v-flex xs12 class="text-xs-center">
-      <p>Join us awesome meetup! </p>
-      </v-flex>
-    </v-layout>
-  </v-container> -->
 </template>
 
 <script>

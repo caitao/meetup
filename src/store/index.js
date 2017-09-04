@@ -16,12 +16,8 @@ export const store = new Vuex.Store({
       registeredMeetups: ['skjpqjwk42']
     }
   },
-  mutations: {
-
-  },
-  actions: {
-
-  },
+  mutations: {},
+  actions: {},
   getters: {
     loadedMeetups (state) {
       return state.loadedMeetups.sort((meetupA, meetupB) => {
