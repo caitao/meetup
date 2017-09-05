@@ -6,18 +6,34 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     loadedMeetups: [
-      {src: '../../static/doc-images/carousel/beijing.jpg', id: 'sadfasdfw21', title: 'Meetup In BeiJing', date: '2017-08-23'},
-      {src: '../../static/doc-images/carousel/shanghai.jpg', id: 'wqjkpsck23', title: 'Meetup In ShangHai', date: '2017-08-24'},
-      {src: '../../static/doc-images/carousel/shengzhen.jpg', id: 'kapadsap13', title: 'Meetup In ShengZhen', date: '2017-08-25'},
-      {src: '../../static/doc-images/carousel/hongkong.jpg', id: 'skjpqjwk42', title: 'Meetup In HongKong', date: '2017-08-27'}
+      {id: 'sadfasdfw21', title: 'Meetup In BeiJing', imageUrl: '../../static/doc-images/carousel/beijing.jpg', date: '2017-08-23'},
+      {id: 'wqjkpsck23', title: 'Meetup In ShangHai', imageUrl: '../../static/doc-images/carousel/shanghai.jpg', date: '2017-08-24'},
+      {id: 'kapadsap13', title: 'Meetup In ShengZhen', imageUrl: '../../static/doc-images/carousel/shengzhen.jpg', date: '2017-08-25'},
+      {id: 'skjpqjwk42', title: 'Meetup In HongKong', imageUrl: '../../static/doc-images/carousel/hongkong.jpg', date: '2017-08-27'}
     ],
     user: {
       id: 'asdkfswq12',
       registeredMeetups: ['skjpqjwk42']
     }
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    createMeetup (state, payload) {
+      state.loadedMeetups.push(payload)
+    }
+  },
+  actions: {
+    createMeetup ({commit}, payload) {
+      const meetup = {
+        title: payload.title,
+        location: payload.location,
+        imageUrl: payload.imageUrl,
+        description: payload.description,
+        date: payload.date,
+        id: 'kqsipqsd43'
+      }
+      commit('createMeetup', meetup)
+    }
+  },
   getters: {
     loadedMeetups (state) {
       return state.loadedMeetups.sort((meetupA, meetupB) => {

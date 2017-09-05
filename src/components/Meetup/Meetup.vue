@@ -7,7 +7,7 @@
             <h6 class="primary--text">{{ meetup.title }}</h6>
           </v-card-title>
           <v-card-media
-          :src="meetup.src"
+          :src="meetup.imageUrl"
           height="200px">
           </v-card-media>
           <v-card-text>

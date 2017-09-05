@@ -1,12 +1,12 @@
 <template lang="html">
   <v-carousel style="cursor: pointer" >
     <v-carousel-item
-    v-for="item in items"
-    v-bind:src="item.src"
-    :key="item.id"
-    @click="onLoadMeetup(item.id)">
+    v-for="meetup in meetups"
+    v-bind:src="meetup.imageUrl"
+    :key="meetup.id"
+    @click="onLoadMeetup(meetup.id)">
       <div class="title">
-        {{item.title}}
+        {{meetup.title}}
       </div>
     </v-carousel-item>
   </v-carousel>
@@ -15,7 +15,7 @@
 <script>
 export default {
   computed: {
-    items () {
+    meetups () {
       return this.$store.getters.featuredMeetups
     }
   },
