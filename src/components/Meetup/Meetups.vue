@@ -10,7 +10,7 @@
           <v-card-title primary-title>
             <div>
               <div class="headline">{{ meetup.title }}</div>
-              <span class="grey--text">{{ meetup.date }}</span>
+              <span class="grey--text">{{ meetup.date | dateFilter }}</span>
             </div>
           </v-card-title>
         </v-card>
