@@ -52,6 +52,7 @@ export default {
       items: [
         {icon: 'group', title: 'MEETUPS', link: '/meetups'},
         {icon: 'location_on', title: 'LOCATION', link: '/locationmeetup'},
+        {icon: 'weekend', title: 'CREATE', link: '/meetup/new'},
         {icon: 'face', title: 'PROFILE', link: '/profile'},
         {icon: 'person', title: 'SIGNIN', link: '/signin'},
         {icon: 'lock_open', title: 'SIGNUP', link: '/signup'}
