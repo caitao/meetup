@@ -11,8 +11,8 @@
           height="200px">
           </v-card-media>
           <v-card-text>
-            <div class="info--text">{{ meetup.title }} {{ meetup.date }}</div>
-            <div>Some fun and interest meetup in here, do you like it .I cant say more ,dont push me.What am I doing? Where we want to go?</div>
+            <div class="info--text">{{ meetup.location }} {{ meetup.date }}</div>
+            <div>{{ meetup.description }}</div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>

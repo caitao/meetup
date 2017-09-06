@@ -6,10 +6,10 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     loadedMeetups: [
-      {id: 'sadfasdfw21', title: 'Meetup In BeiJing', imageUrl: '../../static/doc-images/carousel/beijing.jpg', date: '2017-08-23'},
-      {id: 'wqjkpsck23', title: 'Meetup In ShangHai', imageUrl: '../../static/doc-images/carousel/shanghai.jpg', date: '2017-08-24'},
-      {id: 'kapadsap13', title: 'Meetup In ShengZhen', imageUrl: '../../static/doc-images/carousel/shengzhen.jpg', date: '2017-08-25'},
-      {id: 'skjpqjwk42', title: 'Meetup In HongKong', imageUrl: '../../static/doc-images/carousel/hongkong.jpg', date: '2017-08-27'}
+      {id: 'sadfasdfw21', title: 'Meetup In BeiJing', location: 'BeiJing', imageUrl: '../../static/doc-images/carousel/beijing.jpg', date: '2017-08-23', description: 'This is a description! Welcome to meetup website.'},
+      {id: 'wqjkpsck23', title: 'Meetup In ShangHai', location: 'Shanghai', imageUrl: '../../static/doc-images/carousel/shanghai.jpg', date: '2017-08-24', description: 'This is a description! Welcome to meetup website.'},
+      {id: 'kapadsap13', title: 'Meetup In ShengZhen', location: 'Shengzhen', imageUrl: '../../static/doc-images/carousel/shengzhen.jpg', date: '2017-08-25', description: 'This is a description! Welcome to meetup website.'},
+      {id: 'skjpqjwk42', title: 'Meetup In HongKong', location: 'HongKong', imageUrl: '../../static/doc-images/carousel/hongkong.jpg', date: '2017-08-27', description: 'This is a description! Welcome to meetup website.'}
     ],
     user: {
       id: 'asdkfswq12',
