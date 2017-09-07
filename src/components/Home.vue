@@ -1,5 +1,6 @@
 <template lang="html">
         <video id="video-bg-elem" autoplay="true" loop="loop" muted="muted" width="">
+          <source src="../../static/doc-images/carousel/video.ogg" type="video/ogg" />
           <source src="../../static/doc-images/carousel/video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
