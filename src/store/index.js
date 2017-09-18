@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as wilddog from 'wilddog'
 
 Vue.use(Vuex)
 
@@ -32,6 +33,9 @@ export const store = new Vuex.Store({
         id: 'kqsipqsd43'
       }
       commit('createMeetup', meetup)
+    },
+    signUserUp ({commit}, payload) {
+
     }
   },
   getters: {

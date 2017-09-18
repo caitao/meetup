@@ -7,7 +7,7 @@
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <form @submit.prevent="signup">
+        <form @submit.prevent="onSignup">
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
@@ -39,6 +39,7 @@
                 label="Comfirm Password"
                 id="comfirmPassword"
                 v-model="comfirmPassword"
+                :rules="[comparePassword]"
                 type="password">
               </v-text-field>
             </v-flex>
@@ -62,26 +63,22 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      comfirmPassword: ''
     }
   },
   computed: {
     formIsValid () {
       return this.email !== '' &&
         this.password !== ''
+    },
+    comparePassword () {
+      return this.password !== this.comfirmPassword ? 'Password do not match' : ''
     }
   },
   methods: {
-    onCreateMeetup () {
-      const meetupData = {
-        title: this.title,
-        location: this.location,
-        imageUrl: this.imageUrl,
-        description: this.description,
-        date: this.submitableDateTime
-      }
-      this.$store.dispatch('createMeetup', meetupData)
-      this.$router.push('/meetups')
+    onSignup () {
+      console.log({email: this.email, password: this.password, comfirmPassword: this.comfirmPassword})
     }
   }
 }
