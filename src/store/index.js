@@ -12,16 +12,18 @@ export const store = new Vuex.Store({
       {id: 'kapadsap13', title: 'Meetup In ShengZhen', location: 'Shengzhen', imageUrl: '../../static/doc-images/carousel/shengzhen.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'},
       {id: 'skjpqjwk42', title: 'Meetup In HongKong', location: 'HongKong', imageUrl: '../../static/doc-images/carousel/hongkong.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'}
     ],
-    user: {
-      id: 'asdkfswq12',
-      registeredMeetups: ['skjpqjwk42']
-    }
+    user: null
   },
+
   mutations: {
     createMeetup (state, payload) {
       state.loadedMeetups.push(payload)
+    },
+    setUser (state, payload) {
+      state.user = payload
     }
   },
+
   actions: {
     createMeetup ({commit}, payload) {
       const meetup = {
@@ -35,9 +37,24 @@ export const store = new Vuex.Store({
       commit('createMeetup', meetup)
     },
     signUserUp ({commit}, payload) {
-
+      wilddog.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+        .then(
+          user => {
+            const newUser = {
+              id: user.uid,
+              registeredMeetups: []
+            }
+            commit('setUser', newUser)
+          }
+        )
+        .catch(
+          error => {
+            console.log(error)
+          }
+        )
     }
   },
+
   getters: {
     loadedMeetups (state) {
       return state.loadedMeetups.sort((meetupA, meetupB) => {
@@ -53,6 +70,9 @@ export const store = new Vuex.Store({
           return meetup.id === meetupId
         })
       }
+    },
+    user (state) {
+      return state.user
     }
   }
 })

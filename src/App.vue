@@ -13,7 +13,7 @@
      </v-list>
      <v-list class="pt-0" dense>
        <v-divider></v-divider>
-       <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
+       <v-list-tile v-for="item in menuItems" :key="item.title" :to="item.link">
          <v-list-tile-action>
            <v-icon>{{ item.icon }}</v-icon>
          </v-list-tile-action>
@@ -31,7 +31,7 @@
       <router-link to="/" tag="span" style="cursor: pointer">{{ title }}</router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-toolbar-items class="hidden-xs-only" v-for="item in items" :key="item.title">
+    <v-toolbar-items class="hidden-xs-only" v-for="item in menuItems" :key="item.title">
       <v-btn flat :to="item.link">
         <v-icon right dark>{{ item.icon }}</v-icon>{{ item.title }}
       </v-btn>
@@ -49,15 +49,27 @@ export default {
   data () {
     return {
       sideNav: false,
-      items: [
-        {icon: 'group', title: 'MEETUPS', link: '/meetups'},
-        {icon: 'location_on', title: 'LOCATION', link: '/locationmeetup'},
-        {icon: 'weekend', title: 'CREATE', link: '/meetup/new'},
-        {icon: 'face', title: 'PROFILE', link: '/profile'},
-        {icon: 'person', title: 'SIGNIN', link: '/signin'},
-        {icon: 'lock_open', title: 'SIGNUP', link: '/signup'}
-      ],
       title: 'Meetup'
+    }
+  },
+  computed: {
+    menuItems () {
+      let menuItems = [
+          {icon: 'person', title: 'SIGNIN', link: '/signin'},
+          {icon: 'lock_open', title: 'SIGNUP', link: '/signup'}
+      ]
+      if (this.userIsAuthenticated) {
+        menuItems = [
+          {icon: 'group', title: 'MEETUPS', link: '/meetups'},
+          {icon: 'location_on', title: 'LOCATION', link: '/locationmeetup'},
+          {icon: 'weekend', title: 'CREATE', link: '/meetup/new'},
+          {icon: 'face', title: 'PROFILE', link: '/profile'}
+        ]
+      }
+      return menuItems
+    },
+    userIsAuthenticated () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
     }
   }
 }
