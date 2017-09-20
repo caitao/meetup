@@ -73,8 +73,12 @@ export default {
         this.password !== ''
     },
     comparePassword () {
-      return this.password !== this.comfirmPassword ? 'Password do not match' : ''
+      return this.password !== this.comfirmPassword ? 'Password do not match.' : ''
     },
+    // checkIfUserExists () {
+    //   this.$store.dispatch('checkIfUserExists', {email: this.email})
+    //   return this.$store.getters.emailExist ? 'Email already exist.' : ''
+    // },
     user () {
       return this.$store.getters.user
     }

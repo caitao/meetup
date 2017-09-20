@@ -13,6 +13,7 @@ export const store = new Vuex.Store({
       {id: 'skjpqjwk42', title: 'Meetup In HongKong', location: 'HongKong', imageUrl: '../../static/doc-images/carousel/hongkong.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'}
     ],
     user: null
+    // emailExist: false
   },
 
   mutations: {
@@ -52,7 +53,31 @@ export const store = new Vuex.Store({
             console.log(error)
           }
         )
+    },
+    signUserIn ({commit}, payload) {
+      wilddog.auth().signInWithEmailAndPassword(payload.email, payload.password)
+        .then(
+          user => {
+            const newUser = {
+              id: user.uid,
+              registeredMeetups: []
+            }
+            commit('setUser', newUser)
+          }
+        )
+        .catch(
+          error => {
+            console.log(error)
+          }
+        )
     }
+    // checkIfUserExists ({commit}, payload) {
+    //   wilddog.child(payload.email).once('value', snapshot => {
+    //     let exists = (snapshot.val() !== null)
+    //     commit('emailExist', exists)
+    //   }
+    //   )
+    // }
   },
 
   getters: {
