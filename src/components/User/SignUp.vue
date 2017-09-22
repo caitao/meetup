@@ -3,6 +3,7 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <h4>Sign UP</h4>
+        <div v-if="'error' !== ''">{{ error }}</div>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -64,7 +65,8 @@ export default {
     return {
       email: '',
       password: '',
-      comfirmPassword: ''
+      comfirmPassword: '',
+      error: ''
     }
   },
   computed: {
@@ -81,6 +83,9 @@ export default {
     // },
     user () {
       return this.$store.getters.user
+    },
+    errorUserCreate () {
+      this.error = this.$store.getters.errorUserCreate
     }
   },
   watch: {

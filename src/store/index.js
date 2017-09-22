@@ -6,22 +6,26 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    loadedMeetups: [
+    meetups: [
       {id: 'sadfasdfw21', title: 'Meetup In BeiJing', location: 'BeiJing', imageUrl: '../../static/doc-images/carousel/beijing.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'},
       {id: 'wqjkpsck23', title: 'Meetup In ShangHai', location: 'Shanghai', imageUrl: '../../static/doc-images/carousel/shanghai.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'},
       {id: 'kapadsap13', title: 'Meetup In ShengZhen', location: 'Shengzhen', imageUrl: '../../static/doc-images/carousel/shengzhen.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'},
       {id: 'skjpqjwk42', title: 'Meetup In HongKong', location: 'HongKong', imageUrl: '../../static/doc-images/carousel/hongkong.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'}
     ],
-    user: null
+    user: null,
+    errorUserCreate: null
     // emailExist: false
   },
 
   mutations: {
-    createMeetup (state, payload) {
-      state.loadedMeetups.push(payload)
+    addMeetup (state, payload) {
+      state.meetups.push(payload)
     },
     setUser (state, payload) {
       state.user = payload
+    },
+    setErrorUserCreate (state, payload) {
+      state.errorUserCreate = payload
     }
   },
 
@@ -32,10 +36,16 @@ export const store = new Vuex.Store({
         location: payload.location,
         imageUrl: payload.imageUrl,
         description: payload.description,
-        date: payload.date,
-        id: 'kqsipqsd43'
+        date: payload.date.toString()
       }
-      commit('createMeetup', meetup)
+      wilddog.sync().ref('meetups').push(meetup)
+        .then((data) => {
+          console.log(data)
+          commit('addMeetup', meetup)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     signUserUp ({commit}, payload) {
       wilddog.auth().createUserWithEmailAndPassword(payload.email, payload.password)
@@ -50,6 +60,7 @@ export const store = new Vuex.Store({
         )
         .catch(
           error => {
+            commit('setErrorUserCreate', error)
             console.log(error)
           }
         )
@@ -82,7 +93,7 @@ export const store = new Vuex.Store({
 
   getters: {
     loadedMeetups (state) {
-      return state.loadedMeetups.sort((meetupA, meetupB) => {
+      return state.meetups.sort((meetupA, meetupB) => {
         return meetupA.date > meetupB.date
       })
     },
@@ -91,13 +102,16 @@ export const store = new Vuex.Store({
     },
     loadedMeetup (state) {
       return (meetupId) => {
-        return state.loadedMeetups.find((meetup) => {
+        return state.meetups.find((meetup) => {
           return meetup.id === meetupId
         })
       }
     },
     user (state) {
       return state.user
+    },
+    errorUserCreate (state) {
+      return state.errorUserCreate
     }
   }
 })
