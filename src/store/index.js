@@ -6,18 +6,16 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    meetups: [
-      {id: 'sadfasdfw21', title: 'Meetup In BeiJing', location: 'BeiJing', imageUrl: '../../static/doc-images/carousel/beijing.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'},
-      {id: 'wqjkpsck23', title: 'Meetup In ShangHai', location: 'Shanghai', imageUrl: '../../static/doc-images/carousel/shanghai.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'},
-      {id: 'kapadsap13', title: 'Meetup In ShengZhen', location: 'Shengzhen', imageUrl: '../../static/doc-images/carousel/shengzhen.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'},
-      {id: 'skjpqjwk42', title: 'Meetup In HongKong', location: 'HongKong', imageUrl: '../../static/doc-images/carousel/hongkong.jpg', date: new Date(), description: 'This is a description! Welcome to meetup website.'}
-    ],
+    meetups: [],
     user: null,
     errorUserCreate: null
     // emailExist: false
   },
 
   mutations: {
+    setLoadMeetups (state, payload) {
+      state.meetups = payload
+    },
     addMeetup (state, payload) {
       state.meetups.push(payload)
     },
@@ -30,6 +28,27 @@ export const store = new Vuex.Store({
   },
 
   actions: {
+    loadMeetups ({commit}) {
+      wilddog.sync().ref('meetups').once('value')
+      .then((data) => {
+        const meetups = []
+        const obj = data.val()
+        for (let key in obj) {
+          meetups.push({
+            id: key,
+            title: obj[key].title,
+            location: obj[key].location,
+            imageUrl: obj[key].imageUrl,
+            date: obj[key].date,
+            description: obj[key].description
+          })
+        }
+        commit('setLoadMeetups', meetups)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
     createMeetup ({commit}, payload) {
       const meetup = {
         title: payload.title,

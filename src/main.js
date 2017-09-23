@@ -23,5 +23,6 @@ new Vue({
       syncURL: 'https://wd9504485366mhjfht.wilddogio.com',
       authDomain: 'wd9504485366mhjfht.wilddog.com'
     })
+    this.$store.dispatch('loadMeetups')
   }
 })
