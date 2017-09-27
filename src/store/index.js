@@ -100,6 +100,10 @@ export const store = new Vuex.Store({
             console.log(error)
           }
         )
+    },
+    logOut ({commit}) {
+      wilddog.auth().signOut()
+      commit('setUser', null)
     }
     // checkIfUserExists ({commit}, payload) {
     //   wilddog.child(payload.email).once('value', snapshot => {
