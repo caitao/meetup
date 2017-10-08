@@ -49,13 +49,14 @@ export const store = new Vuex.Store({
         console.log(error)
       })
     },
-    createMeetup ({commit}, payload) {
+    createMeetup ({commit, getters}, payload) {
       const meetup = {
         title: payload.title,
         location: payload.location,
         imageUrl: payload.imageUrl,
         description: payload.description,
-        date: payload.date.toString()
+        date: payload.date.toString(),
+        creatorId: getters.user.id
       }
       wilddog.sync().ref('meetups').push(meetup)
         .then((data) => {
@@ -100,6 +101,9 @@ export const store = new Vuex.Store({
             console.log(error)
           }
         )
+    },
+    autoSignin ({commit}, payload) {
+      commit('setUser', {id: payload.uid, registeredMeetups: []})
     },
     logOut ({commit}) {
       wilddog.auth().signOut()
