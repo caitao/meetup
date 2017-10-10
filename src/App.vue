@@ -95,3 +95,4 @@ export default {
 <style lang="stylus">
   @import './stylus/main'
 </style>
+© 2017 GitHub, Inc.

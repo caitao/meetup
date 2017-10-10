@@ -21,6 +21,8 @@ export const store = new Vuex.Store({
     },
     setUser (state, payload) {
       state.user = payload
+      // 存入local storage 防止刷新丢失．
+      window.localStorage.setItem('User', payload)
     },
     setErrorUserCreate (state, payload) {
       state.errorUserCreate = payload
