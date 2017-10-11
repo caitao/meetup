@@ -42,7 +42,8 @@ export const store = new Vuex.Store({
             location: obj[key].location,
             imageUrl: obj[key].imageUrl,
             date: obj[key].date,
-            description: obj[key].description
+            description: obj[key].description,
+            creatorId: obj[key].creatorId
           })
         }
         commit('setLoadMeetups', meetups)
