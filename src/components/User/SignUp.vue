@@ -12,11 +12,10 @@
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
-                name="email"
-                label="Email"
-                id="email"
-                v-model="email"
-                type="email"
+                name="username"
+                label="MobilePhone/Email"
+                id="username"
+                v-model="username"
                 required>
               </v-text-field>
             </v-flex>
@@ -63,7 +62,7 @@
 export default {
   data () {
     return {
-      email: '',
+      username: '',
       password: '',
       comfirmPassword: '',
       error: ''
@@ -71,21 +70,18 @@ export default {
   },
   computed: {
     formIsValid () {
-      return this.email !== '' &&
+      return this.username !== '' &&
         this.password !== ''
     },
     comparePassword () {
       return this.password !== this.comfirmPassword ? 'Password do not match.' : ''
     },
     // checkIfUserExists () {
-    //   this.$store.dispatch('checkIfUserExists', {email: this.email})
+    //   this.$store.dispatch('checkIfUserExists', {mobilePhone: this.mobilePhone})
     //   return this.$store.getters.emailExist ? 'Email already exist.' : ''
     // },
     user () {
       return this.$store.getters.user
-    },
-    errorUserCreate () {
-      this.error = this.$store.getters.errorUserCreate
     }
   },
   watch: {
@@ -98,7 +94,7 @@ export default {
   },
   methods: {
     onSignup () {
-      this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
+      this.$store.dispatch('signUserUp', {username: this.username, password: this.password})
     }
   }
 }

@@ -1,15 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as wilddog from 'wilddog'
+import * as AV from 'leancloud-storage'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
     meetups: [],
-    user: null,
-    errorUserCreate: null
-    // emailExist: false
+    user: null
+    // errorUserCreate: null
   },
 
   mutations: {
@@ -21,17 +20,15 @@ export const store = new Vuex.Store({
     },
     setUser (state, payload) {
       state.user = payload
-      // 存入local storage 防止刷新丢失．
+      console.log(payload)
       window.localStorage.setItem('User', payload)
-    },
-    setErrorUserCreate (state, payload) {
-      state.errorUserCreate = payload
     }
   },
 
   actions: {
     loadMeetups ({commit}) {
-      wilddog.sync().ref('meetups').once('value')
+      const query = AV.Query('Meetups')
+      query.find()
       .then((data) => {
         const meetups = []
         const obj = data.val()
@@ -53,15 +50,16 @@ export const store = new Vuex.Store({
       })
     },
     createMeetup ({commit, getters}, payload) {
-      const meetup = {
-        title: payload.title,
-        location: payload.location,
-        imageUrl: payload.imageUrl,
-        description: payload.description,
-        date: payload.date.toString(),
-        creatorId: getters.user.id
-      }
-      wilddog.sync().ref('meetups').push(meetup)
+      const Meetup = AV.Object.extend('Meetups')
+      let meetup = new Meetup()
+      meetup.set('title', payload.title)
+      meetup.set('location', payload.location)
+      meetup.set('imageUrl', payload.imageUrl)
+      meetup.set('description', payload.description)
+      meetup.set('date', payload.date.toString())
+      meetup.set('creatorId', getters.user.id)
+      meetup.save()
+      // wilddog.sync().ref('meetups').push(meetup)
         .then((data) => {
           console.log(data)
           commit('addMeetup', meetup)
@@ -71,11 +69,12 @@ export const store = new Vuex.Store({
         })
     },
     signUserUp ({commit}, payload) {
-      wilddog.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+      AV.User.signUp(payload.username, payload.password)
+      // wilddog.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
-          user => {
+          loginedUser => {
             const newUser = {
-              id: user.uid,
+              id: loginedUser.objectId,
               registeredMeetups: []
             }
             commit('setUser', newUser)
@@ -83,17 +82,17 @@ export const store = new Vuex.Store({
         )
         .catch(
           error => {
-            commit('setErrorUserCreate', error)
-            console.log(error)
+            alert(JSON.stringify(error))
           }
         )
     },
     signUserIn ({commit}, payload) {
-      wilddog.auth().signInWithEmailAndPassword(payload.email, payload.password)
+      AV.User.logIn(payload.username, payload.password)
+      // wilddog.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
-          user => {
+          loginedUser => {
             const newUser = {
-              id: user.uid,
+              id: loginedUser.objectId,
               registeredMeetups: []
             }
             commit('setUser', newUser)
@@ -109,7 +108,7 @@ export const store = new Vuex.Store({
       commit('setUser', {id: payload.uid, registeredMeetups: []})
     },
     logOut ({commit}) {
-      wilddog.auth().signOut()
+      AV.User.logOut()
       commit('setUser', null)
     }
     // checkIfUserExists ({commit}, payload) {
@@ -139,9 +138,6 @@ export const store = new Vuex.Store({
     },
     user (state) {
       return state.user
-    },
-    errorUserCreate (state) {
-      return state.errorUserCreate
     }
   }
 })
