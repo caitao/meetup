@@ -20,6 +20,10 @@ new Vue({
   render: h => h(App),
   created () {
     AV.init({appId, appKey})
+    var currentUser = AV.User.current()
+    if (currentUser) {
+      this.$store.dispatch('autoSignin', currentUser)
+    }
   }
   //   wilddog.auth().onAuthStateChanged((user) => {
   //     if (user) {

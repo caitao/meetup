@@ -90,22 +90,17 @@ export const store = new Vuex.Store({
       AV.User.logIn(payload.username, payload.password)
       // wilddog.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
-          loginedUser => {
-            const newUser = {
-              id: loginedUser.objectId,
-              registeredMeetups: []
+            loginedUser => {
+              const newUser = {id: loginedUser.username, registeredMeetups: []}
+              commit('setUser', newUser)
+            },
+            error => {
+              console.log(error)
             }
-            commit('setUser', newUser)
-          }
-        )
-        .catch(
-          error => {
-            console.log(error)
-          }
-        )
+          )
     },
     autoSignin ({commit}, payload) {
-      commit('setUser', {id: payload.uid, registeredMeetups: []})
+      commit('setUser', {id: payload.objectId, registeredMeetups: []})
     },
     logOut ({commit}) {
       AV.User.logOut()

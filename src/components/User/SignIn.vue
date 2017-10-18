@@ -64,6 +64,10 @@ export default {
   },
   watch: {
   // 判断是否已已经注册成功，如果注册成功且客户信息不为空或者未定义，则返回主页
+    // var currentUser = AV.User.current();
+    //  if (currentUser) {
+    //     // 跳转到首页
+    //  }
     user (value) {
       if (value !== null && value !== undefined) {
         this.$router.push('/')
