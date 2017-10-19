@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as AV from 'leancloud-storage'
+import AV from 'leancloud-storage'
 
 Vue.use(Vuex)
 
@@ -27,20 +27,19 @@ export const store = new Vuex.Store({
 
   actions: {
     loadMeetups ({commit}) {
-      const query = AV.Query('Meetups')
+      const query = new AV.Query('Meetups').ascending('date')
       query.find()
       .then((data) => {
         const meetups = []
-        const obj = data.val()
-        for (let key in obj) {
+        for (let key in data) {
           meetups.push({
             id: key,
-            title: obj[key].title,
-            location: obj[key].location,
-            imageUrl: obj[key].imageUrl,
-            date: obj[key].date,
-            description: obj[key].description,
-            creatorId: obj[key].creatorId
+            title: data[key].title,
+            location: data[key].location,
+            imageUrl: data[key].imageUrl,
+            date: data[key].date,
+            description: data[key].description,
+            creatorId: data[key].creatorId
           })
         }
         commit('setLoadMeetups', meetups)
