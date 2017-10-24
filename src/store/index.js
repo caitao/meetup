@@ -20,7 +20,6 @@ export const store = new Vuex.Store({
     },
     setUser (state, payload) {
       state.user = payload
-      console.log(payload)
       window.localStorage.setItem('User', payload)
     }
   },
@@ -49,19 +48,35 @@ export const store = new Vuex.Store({
       })
     },
     createMeetup ({commit, getters}, payload) {
+      let imageUrl
+      let key
       const Meetup = AV.Object.extend('Meetups')
       let meetup = new Meetup()
       meetup.set('title', payload.title)
       meetup.set('location', payload.location)
-      meetup.set('imageUrl', payload.imageUrl)
       meetup.set('description', payload.description)
       meetup.set('date', payload.date.toString())
       meetup.set('creatorId', getters.user.id)
       meetup.save()
       // wilddog.sync().ref('meetups').push(meetup)
         .then((data) => {
+          const filename = payload.image.name
+          const ext = filename.slice(filename.lastIndexOf('.'))
           console.log(data)
-          commit('addMeetup', meetup)
+          key = data.key
+          const file = new AV.File(key + '.' + ext, payload.image)
+          file.save().then((file) => {
+            imageUrl = file.url
+            console.log(imageUrl)
+          })
+        })
+        .then(() => {
+          imageUrl =
+          commit('addMeetup', {
+            ...meetup,
+            imageUrl: imageUrl,
+            id: key
+          })
         })
         .catch((error) => {
           console.log(error)
@@ -73,7 +88,7 @@ export const store = new Vuex.Store({
         .then(
           loginedUser => {
             const newUser = {
-              id: loginedUser.objectId,
+              id: loginedUser.id,
               registeredMeetups: []
             }
             commit('setUser', newUser)
@@ -90,7 +105,7 @@ export const store = new Vuex.Store({
       // wilddog.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
             loginedUser => {
-              const newUser = {id: loginedUser.username, registeredMeetups: []}
+              const newUser = {id: loginedUser.id, registeredMeetups: []}
               commit('setUser', newUser)
             },
             error => {
@@ -99,7 +114,7 @@ export const store = new Vuex.Store({
           )
     },
     autoSignin ({commit}, payload) {
-      commit('setUser', {id: payload.objectId, registeredMeetups: []})
+      commit('setUser', {id: payload.id, registeredMeetups: []})
     },
     logOut ({commit}) {
       AV.User.logOut()

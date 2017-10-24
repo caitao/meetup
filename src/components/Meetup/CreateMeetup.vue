@@ -118,23 +118,6 @@ export default {
     }
   },
   methods: {
-    onCreateMeetup () {
-      if (!this.formIsValid) {
-        return
-      }
-      if (!this.image) {
-        return
-      }
-      const meetupData = {
-        title: this.title,
-        location: this.location,
-        imageUrl: this.image,
-        description: this.description,
-        date: this.submitableDateTime
-      }
-      this.$store.dispatch('createMeetup', meetupData)
-      this.$router.push('/meetups')
-    },
     onPickFile () {
       this.$refs.fileInput.click()
     },
@@ -150,6 +133,23 @@ export default {
       })
       fileReader.readAsDataURL(files[0])
       this.image = files[0]
+    },
+    onCreateMeetup () {
+      if (!this.formIsValid) {
+        return
+      }
+      if (!this.image) {
+        return
+      }
+      const meetupData = {
+        title: this.title,
+        location: this.location,
+        image: this.image,
+        description: this.description,
+        date: this.submitableDateTime
+      }
+      this.$store.dispatch('createMeetup', meetupData)
+      this.$router.push('/meetups')
     }
   }
 }
