@@ -149,6 +149,7 @@ export default {
         date: this.submitableDateTime
       }
       this.$store.dispatch('createMeetup', meetupData)
+      console.log(meetupData)
       this.$router.push('/meetups')
     }
   }

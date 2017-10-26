@@ -21,7 +21,7 @@ new Vue({
   created () {
     AV.init({appId, appKey})
     this.$store.dispatch('loadMeetups')
-    var currentUser = AV.User.current()
+    let currentUser = AV.User.current()
     if (currentUser) {
       this.$store.dispatch('autoSignin', currentUser)
     }

@@ -49,7 +49,7 @@ export const store = new Vuex.Store({
     },
     createMeetup ({commit, getters}, payload) {
       let imageUrl
-      let key
+      let objectId
       const Meetup = AV.Object.extend('Meetups')
       let meetup = new Meetup()
       meetup.set('title', payload.title)
@@ -60,22 +60,26 @@ export const store = new Vuex.Store({
       meetup.save()
       // wilddog.sync().ref('meetups').push(meetup)
         .then((data) => {
+          objectId = data.id
+          console.log(objectId)
+          return objectId
+        })
+        .then(objectId => {
           const filename = payload.image.name
           const ext = filename.slice(filename.lastIndexOf('.'))
-          console.log(data)
-          key = data.key
-          const file = new AV.File(key + '.' + ext, payload.image)
-          file.save().then((file) => {
-            imageUrl = file.url
+          const file = new AV.File(objectId + ext, payload.image)
+          file.save()
+          .then((file) => {
+            imageUrl = file.url()
             console.log(imageUrl)
+            return AV.Object.createWithoutData('Meetups', objectId).set('imageUrl', imageUrl)
           })
         })
         .then(() => {
-          imageUrl =
           commit('addMeetup', {
             ...meetup,
             imageUrl: imageUrl,
-            id: key
+            id: objectId
           })
         })
         .catch((error) => {
