@@ -55,6 +55,7 @@ export const store = new Vuex.Store({
       meetup.set('title', payload.title)
       meetup.set('location', payload.location)
       meetup.set('description', payload.description)
+      meetup.set('imageUrl', null)
       meetup.set('date', payload.date.toString())
       meetup.set('creatorId', getters.user.id)
       meetup.save()
@@ -72,7 +73,9 @@ export const store = new Vuex.Store({
           .then((file) => {
             imageUrl = file.url()
             console.log(imageUrl)
-            return AV.Object.createWithoutData('Meetups', objectId).set('imageUrl', imageUrl)
+            return AV.Object.createWithoutData('Meetups', objectId).save({
+              'imageUrl': imageUrl
+            }).catch(alert)
           })
         })
         .then(() => {
