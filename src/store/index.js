@@ -51,13 +51,14 @@ export const store = new Vuex.Store({
       let imageUrl
       let objectId
       const Meetup = AV.Object.extend('Meetups')
-      let meetup = new Meetup()
-      meetup.set('title', payload.title)
-      meetup.set('location', payload.location)
-      meetup.set('description', payload.description)
-      meetup.set('date', payload.date.toString())
-      meetup.set('creatorId', getters.user.id)
-      meetup.save()
+      new Meetup({
+        title: payload.title,
+        location: payload.location,
+        description: payload.description,
+        imageUrl: null,
+        date: payload.date.toString(),
+        creatorId: getters.user.id
+      }).save()
       // wilddog.sync().ref('meetups').push(meetup)
         .then((data) => {
           objectId = data.id
@@ -72,12 +73,18 @@ export const store = new Vuex.Store({
           .then((file) => {
             imageUrl = file.url()
             console.log(imageUrl)
-            return AV.Object.createWithoutData('Meetups', objectId).set('imageUrl', imageUrl)
           })
+          AV.Object.createWithoutData('Meetups', objectId).save({
+            imageUrl: imageUrl
+          }).catch(alert)
         })
         .then(() => {
           commit('addMeetup', {
-            ...meetup,
+            title: payload.title,
+            location: payload.location,
+            description: payload.description,
+            date: payload.date.toString(),
+            creatorId: getters.user.id,
             imageUrl: imageUrl,
             id: objectId
           })
