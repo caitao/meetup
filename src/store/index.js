@@ -33,12 +33,12 @@ export const store = new Vuex.Store({
         for (let key in data) {
           meetups.push({
             id: key,
-            title: data[key].title,
-            location: data[key].location,
-            imageUrl: data[key].imageUrl,
-            date: data[key].date,
-            description: data[key].description,
-            creatorId: data[key].creatorId
+            title: data[key].attributes.title,
+            location: data[key].attributes.location,
+            imageLink: data[key].attributes.imageLink,
+            date: data[key].attributes.date,
+            description: data[key].attributes.description,
+            creatorId: data[key].attributes.creatorId
           })
         }
         commit('setLoadMeetups', meetups)
@@ -48,44 +48,39 @@ export const store = new Vuex.Store({
       })
     },
     createMeetup ({commit, getters}, payload) {
-      let imageUrl
       let objectId
-      const Meetup = AV.Object.extend('Meetups')
-      new Meetup({
+      let imageUrl
+      const meetup = {
+        imageLink: '',
         title: payload.title,
         location: payload.location,
         description: payload.description,
-        imageUrl: null,
         date: payload.date.toString(),
         creatorId: getters.user.id
-      }).save()
-      // wilddog.sync().ref('meetups').push(meetup)
+      }
+      const Meetup = AV.Object.extend('Meetups')
+      new Meetup(meetup).save()
         .then((data) => {
           objectId = data.id
-          console.log(objectId)
           return objectId
         })
         .then(objectId => {
           const filename = payload.image.name
           const ext = filename.slice(filename.lastIndexOf('.'))
           const file = new AV.File(objectId + ext, payload.image)
-          file.save()
-          .then((file) => {
-            imageUrl = file.url()
-            console.log(imageUrl)
-          })
+          return file.save()
+        })
+        .then(file => {
+          imageUrl = file.url()
           AV.Object.createWithoutData('Meetups', objectId).save({
-            imageUrl: imageUrl
+            imageLink: imageUrl
           }).catch(alert)
+          console.log(imageUrl)
         })
         .then(() => {
           commit('addMeetup', {
-            title: payload.title,
-            location: payload.location,
-            description: payload.description,
-            date: payload.date.toString(),
-            creatorId: getters.user.id,
-            imageUrl: imageUrl,
+            ...meetup,
+            imageLink: imageUrl,
             id: objectId
           })
         })

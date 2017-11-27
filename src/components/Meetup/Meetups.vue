@@ -4,7 +4,7 @@
       <v-flex xs12 sm6 offset-sm3>
         <v-card style="cursor: pointer" @click="onLoadMeetup(meetup.id)">
           <v-card-media
-            :src="meetup.imageUrl"
+            :src="meetup.imageLink"
             height="200px">
           </v-card-media>
           <v-card-title primary-title>
