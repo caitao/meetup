@@ -75,7 +75,6 @@ export const store = new Vuex.Store({
           AV.Object.createWithoutData('Meetups', objectId).save({
             imageLink: imageUrl
           }).catch(alert)
-          console.log(imageUrl)
         })
         .then(() => {
           commit('addMeetup', {
