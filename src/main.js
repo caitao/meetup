@@ -5,10 +5,12 @@ import router from './router'
 import { store } from './store'
 import DateFilter from './filters/date'
 import AV from 'leancloud-storage'
+import EditMeetupDetailDialog from './components/Meetup/Edit/EditMeetupDetailDialog.vue'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 Vue.filter('dateFilter', DateFilter)
+Vue.component('app-edit-meetup-detail-dialog', EditMeetupDetailDialog)
 const appId = 'OyLU8hceo70Qhf0shL1GhKwh-gzGzoHsz'
 const appKey = 'dAzhSgD2SXMMVSOd5WsPKlYK'
 
