@@ -10,7 +10,7 @@ import EditMeetupDetailDialog from './components/Meetup/Edit/EditMeetupDetailDia
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 Vue.filter('dateFilter', DateFilter)
-Vue.component('app-edit-meetup-detail-dialog', EditMeetupDetailDialog)
+Vue.component('app-edit-meetup-details-dialog', EditMeetupDetailDialog)
 const appId = 'OyLU8hceo70Qhf0shL1GhKwh-gzGzoHsz'
 const appKey = 'dAzhSgD2SXMMVSOd5WsPKlYK'
 

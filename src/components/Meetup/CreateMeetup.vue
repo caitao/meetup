@@ -34,6 +34,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-btn
               raised
+              round
               class="primary"
               @click="onPickFile">Upload Picture</v-btn>
              <input
@@ -74,6 +75,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-btn
               class="primary"
+              round
               :disabled="!formIsValid"
               type="submit">Create Meetup</v-btn>
             </v-flex>
@@ -149,7 +151,6 @@ export default {
         date: this.submitableDateTime
       }
       this.$store.dispatch('createMeetup', meetupData)
-      console.log(meetupData)
       this.$router.push('/meetups')
     }
   }
