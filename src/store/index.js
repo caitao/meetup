@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     meetups: [],
+    loading: false,
     user: null
     // errorUserCreate: null
   },
@@ -18,14 +19,54 @@ export const store = new Vuex.Store({
     addMeetup (state, payload) {
       state.meetups.push(payload)
     },
+    updateMeetup (state, payload) {
+      const meetup = this.state.meetups.find(meetup => {
+        return meetup.id === payload.id
+      })
+      if (payload.title) {
+        meetup.title = payload.title
+      }
+      if (payload.description) {
+        meetup.description = payload.description
+      }
+      if (payload.date) {
+        meetup.date = payload.date
+      }
+    },
     setUser (state, payload) {
       state.user = payload
       window.localStorage.setItem('User', payload)
+    },
+    setLoading (state, payload) {
+      state.loading = payload
     }
   },
 
   actions: {
+    updateMeetupData ({commit}, payload) {
+      commit('setLoading', true)
+      const updateObj = {}
+      if (payload.title) {
+        updateObj.title = payload.title
+      }
+      if (payload.description) {
+        updateObj.description = payload.description
+      }
+      if (payload.date) {
+        updateObj.date = payload.date
+      }
+      AV.Object.createWithoutData('Meetups', payload.objectId).save(updateObj)
+      .then(() => {
+        commit('setLoading', false)
+        commit('updateMeetup', payload)
+      })
+      .catch((error) => {
+        console.log(error)
+        commit('setLoading', false)
+      })
+    },
     loadMeetups ({commit}) {
+      commit('setLoading', true)
       const query = new AV.Query('Meetups').ascending('date')
       query.find()
       .then((data) => {
@@ -42,9 +83,11 @@ export const store = new Vuex.Store({
           })
         }
         commit('setLoadMeetups', meetups)
+        commit('setLoading', false)
       })
       .catch((error) => {
         console.log(error)
+        commit('setLoading', false)
       })
     },
     createMeetup ({commit, getters}, payload) {
@@ -88,10 +131,12 @@ export const store = new Vuex.Store({
         })
     },
     signUserUp ({commit}, payload) {
+      commit('setLoading', true)
       AV.User.signUp(payload.username, payload.password)
       // wilddog.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
           loginedUser => {
+            commit('setLoading', false)
             const newUser = {
               id: loginedUser.id,
               registeredMeetups: []
@@ -101,22 +146,24 @@ export const store = new Vuex.Store({
         )
         .catch(
           error => {
+            commit('setLoading', false)
             alert(JSON.stringify(error))
           }
         )
     },
     signUserIn ({commit}, payload) {
+      commit('setLoading', true)
       AV.User.logIn(payload.username, payload.password)
       // wilddog.auth().signInWithEmailAndPassword(payload.email, payload.password)
-        .then(
-            loginedUser => {
-              const newUser = {id: loginedUser.id, registeredMeetups: []}
-              commit('setUser', newUser)
-            },
-            error => {
-              console.log(error)
-            }
-          )
+        .then(loginedUser => {
+          commit('setLoading', false)
+          const newUser = {id: loginedUser.id, registeredMeetups: []}
+          commit('setUser', newUser)
+        })
+        .catch(error => {
+          commit('setLoading', false)
+          console.log(error)
+        })
     },
     autoSignin ({commit}, payload) {
       commit('setUser', {id: payload.id, registeredMeetups: []})
@@ -125,13 +172,6 @@ export const store = new Vuex.Store({
       AV.User.logOut()
       commit('setUser', null)
     }
-    // checkIfUserExists ({commit}, payload) {
-    //   wilddog.child(payload.email).once('value', snapshot => {
-    //     let exists = (snapshot.val() !== null)
-    //     commit('emailExist', exists)
-    //   }
-    //   )
-    // }
   },
 
   getters: {
@@ -152,6 +192,9 @@ export const store = new Vuex.Store({
     },
     user (state) {
       return state.user
+    },
+    loading (state) {
+      return state.loading
     }
   }
 })

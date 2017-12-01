@@ -1,5 +1,5 @@
 <template lang="html">
- <v-dialog width="350px" persistent>
+ <v-dialog width="350px" persistent v-model="editDialogShow">
    <v-btn fab dark small accent slot="activator" class="primary">
      <v-icon>edit</v-icon>
    </v-btn>
@@ -38,8 +38,8 @@
           <v-flex xs12>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn  class="blue--text darken-1" flat @click.native="dialog = false">Close</v-btn>
-              <v-btn  class="blue--text darken-1" flat @click.native="dialog = false">Save</v-btn>
+              <v-btn  class="blue--text darken-1" flat @click="editDialogShow = false">Close</v-btn>
+              <v-btn  class="blue--text darken-1" flat @click="onSaveChanges">Save</v-btn>
             </v-card-actions>
           </v-flex>
         </v-layout>
@@ -49,15 +49,30 @@
 </template>
 
 <script>
-export default {
-  props: ['meetup'],
-  data () {
-    return {
-      editedTitle: this.meetup.title,
-      editedDescription: this.meetup.description
+  export default {
+    props: ['meetup'],
+    data () {
+      return {
+        editDialogShow: false,
+        editedTitle: this.meetup.title,
+        editedDescription: this.meetup.description
+      }
+    },
+    methods: {
+      onSaveChanges () {
+        if (this.editedTitle.trim() === '' || this.editedDescription.trim() === '') {
+          return
+        }
+        this.editDialogShow = false
+        this.$store.dispatch('updateMeetupData', {
+          id: this.meetup.objectId,
+          title: this.editedTitle,
+          description: this.editedDescription
+        })
+        console.log(this.meetup.objectId)
+      }
     }
   }
-}
 </script>
 
 <style lang="css">
