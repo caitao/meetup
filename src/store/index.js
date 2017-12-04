@@ -73,7 +73,7 @@ export const store = new Vuex.Store({
         const meetups = []
         for (let key in data) {
           meetups.push({
-            id: key,
+            id: data[key].attributes.objectId,
             title: data[key].attributes.title,
             location: data[key].attributes.location,
             imageLink: data[key].attributes.imageLink,
@@ -185,7 +185,9 @@ export const store = new Vuex.Store({
     },
     loadedMeetup (state) {
       return (meetupId) => {
+        console.log(meetupId)
         return state.meetups.find((meetup) => {
+          console.log(meetup)
           return meetup.id === meetupId
         })
       }

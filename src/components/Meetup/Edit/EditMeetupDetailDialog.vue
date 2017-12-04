@@ -65,7 +65,7 @@
         }
         this.editDialogShow = false
         this.$store.dispatch('updateMeetupData', {
-          id: this.meetup.objectId,
+          objectId: this.meetup.objectId,
           title: this.editedTitle,
           description: this.editedDescription
         })
