@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
     },
     updateMeetup (state, payload) {
       const meetup = this.state.meetups.find(meetup => {
-        return meetup.id === payload.id
+        return meetup.objectId === payload.objectId
       })
       if (payload.title) {
         meetup.title = payload.title
@@ -73,7 +73,7 @@ export const store = new Vuex.Store({
         const meetups = []
         for (let key in data) {
           meetups.push({
-            id: data[key].attributes.objectId,
+            objectId: data[key].id,
             title: data[key].attributes.title,
             location: data[key].attributes.location,
             imageLink: data[key].attributes.imageLink,
@@ -82,6 +82,7 @@ export const store = new Vuex.Store({
             creatorId: data[key].attributes.creatorId
           })
         }
+        console.log(meetups)
         commit('setLoadMeetups', meetups)
         commit('setLoading', false)
       })
@@ -185,10 +186,8 @@ export const store = new Vuex.Store({
     },
     loadedMeetup (state) {
       return (meetupId) => {
-        console.log(meetupId)
         return state.meetups.find((meetup) => {
-          console.log(meetup)
-          return meetup.id === meetupId
+          return meetup.objectId === meetupId
         })
       }
     },

@@ -41,10 +41,10 @@
 
 <script>
 export default {
-  props: ['objectId'],
+  props: ['id'],
   computed: {
     meetup () {
-      return this.$store.getters.loadedMeetup(this.objectId)
+      return this.$store.getters.loadedMeetup(this.id)
     },
     loading () {
       return this.$store.getters.loading

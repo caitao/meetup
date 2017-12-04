@@ -1,8 +1,8 @@
 <template lang="html">
   <v-container>
-    <v-layout row wrap v-for="meetup in meetups" :key="meetup.id" class="mb-2">
+    <v-layout row wrap v-for="meetup in meetups" :key="meetup.objectId" class="mb-2">
       <v-flex xs12 sm6 offset-sm3>
-        <v-card style="cursor: pointer" @click="onLoadMeetup(meetup.id)">
+        <v-card style="cursor: pointer" @click="onLoadMeetup(meetup.objectId)">
           <v-card-media
             :src="meetup.imageLink"
             height="200px">
@@ -27,8 +27,8 @@ export default {
     }
   },
   methods: {
-    onLoadMeetup (id) {
-      this.$router.push('/meetups/' + id)
+    onLoadMeetup (objectId) {
+      this.$router.push('/meetups/' + objectId)
     }
   }
 }
