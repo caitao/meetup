@@ -13,12 +13,12 @@
       <v-flex xs12>
         <v-card>
           <v-card-title>
-            <h6 class="primary--text">{{meetup.title}}</h6>
-            <template v-if="userIsCreator">
-              <v-spacer></v-spacer>
+            <h6 class="primary--text">{{meetup.title}}
+             <template v-if="userIsCreator">
               <app-edit-meetup-details-dialog v-bind:meetup="meetup">
               </app-edit-meetup-details-dialog>
-            </template>
+             </template>
+            </h6>
           </v-card-title>
           <v-card-media
           :src="meetup.imageLink"
@@ -26,8 +26,10 @@
           </v-card-media>
           <v-card-text>
             <div class="info--text">{{ meetup.location }} {{ meetup.date | dateFilter }}
-                <add-edit-meetup-date-dialog v-bind:meetup="meetup">
+                <add-edit-meetup-date-dialog v-bind:meetup="meetup" v-if="userIsCreator">
                 </add-edit-meetup-date-dialog>
+                <add-edit-meetup-time-dialog v-bind:meetup="meetup" v-if="userIsCreator">
+                </add-edit-meetup-time-dialog>
             </div>
 
             <div>{{ meetup.description }}</div>

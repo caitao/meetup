@@ -53,7 +53,7 @@ export const store = new Vuex.Store({
         updateObj.description = payload.description
       }
       if (payload.date) {
-        updateObj.date = payload.date
+        updateObj.date = payload.date.toString()
       }
       AV.Object.createWithoutData('Meetups', payload.objectId).save(updateObj)
       .then(() => {
