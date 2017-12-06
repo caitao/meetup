@@ -16,7 +16,7 @@
             <h6 class="primary--text">{{meetup.title}}</h6>
             <template v-if="userIsCreator">
               <v-spacer></v-spacer>
-              <app-edit-meetup-details-dialog :meetup="meetup">
+              <app-edit-meetup-details-dialog v-bind:meetup="meetup">
               </app-edit-meetup-details-dialog>
             </template>
           </v-card-title>
@@ -25,7 +25,11 @@
           height="200px">
           </v-card-media>
           <v-card-text>
-            <div class="info--text">{{ meetup.location }} {{ meetup.date | dateFilter }}</div>
+            <div class="info--text">{{ meetup.location }} {{ meetup.date | dateFilter }}
+                <add-edit-meetup-date-dialog v-bind:meetup="meetup">
+                </add-edit-meetup-date-dialog>
+            </div>
+
             <div>{{ meetup.description }}</div>
           </v-card-text>
           <v-card-actions>

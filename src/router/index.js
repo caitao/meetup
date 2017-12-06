@@ -32,7 +32,7 @@ export default new Router({
       beforeEnter: AuthGuard
     },
     {
-      path: '/meetups/:id',
+      path: '/meetups/:id',  // 此处的id即为Meetups.vue中传递的objectId meetup.vue中通过props获得
       name: 'Meetup',
       props: true,
       component: Meetup,

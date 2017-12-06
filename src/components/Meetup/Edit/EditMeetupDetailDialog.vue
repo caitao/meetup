@@ -69,7 +69,6 @@
           title: this.editedTitle,
           description: this.editedDescription
         })
-        console.log(this.meetup.objectId)
       }
     }
   }

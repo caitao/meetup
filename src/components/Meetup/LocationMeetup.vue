@@ -3,8 +3,8 @@
     <v-carousel-item
     v-for="meetup in meetups"
     v-bind:src="meetup.imageLink"
-    :key="meetup.id"
-    @click="onLoadMeetup(meetup.id)">
+    :key="meetup.objectId"
+    @click="onLoadMeetup(meetup.objectId)">
       <div class="title">
         {{ meetup.title }}
       </div>

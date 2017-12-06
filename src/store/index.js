@@ -73,7 +73,7 @@ export const store = new Vuex.Store({
         const meetups = []
         for (let key in data) {
           meetups.push({
-            objectId: data[key].id,
+            objectId: data[key].id, // 在leancloud AV.Query方法中得到的数据格式下，这样才能返回objectId
             title: data[key].attributes.title,
             location: data[key].attributes.location,
             imageLink: data[key].attributes.imageLink,
@@ -82,7 +82,6 @@ export const store = new Vuex.Store({
             creatorId: data[key].attributes.creatorId
           })
         }
-        console.log(meetups)
         commit('setLoadMeetups', meetups)
         commit('setLoading', false)
       })
