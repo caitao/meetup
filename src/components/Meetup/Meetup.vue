@@ -36,7 +36,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn round class="primary" >Rigster</v-btn>
+            <add-meetup-register-dialog :objectId = "meetup.id"></add-meetup-register-dialog>
           </v-card-actions>
         </v-card>
       </v-flex>
