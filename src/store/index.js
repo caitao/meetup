@@ -13,6 +13,11 @@ export const store = new Vuex.Store({
   },
 
   mutations: {
+    unregisterUserFromMeetup (state, payload) {
+      const registeredMeetups = state.user.registeredMeetups
+      registeredMeetups.splice(registeredMeetups.findIndex(meetup => meetup.id === payload), 1)
+      Reflect.deleteProperty(state.user.fbKeys, payload)
+    },
     setLoadMeetups (state, payload) {
       state.meetups = payload
     },
@@ -33,6 +38,18 @@ export const store = new Vuex.Store({
         meetup.date = payload.date
       }
     },
+    registeMeetup (state, payload) {
+      const meetup = this.state.meetups.find(meetup => {
+        return meetup.objectId === payload.objectId
+      })
+      meetup.registerId.push(payload.userId)
+    },
+    unRegisteMeetup (state, payload) {
+      const meetup = this.state.meetups.find(meetup => {
+        return meetup.objectId === payload.objectId
+      })
+      meetup.registerId.splice(meetup.registerId.indexOf(payload.userId), 1)
+    },
     setUser (state, payload) {
       state.user = payload
       window.localStorage.setItem('User', payload)
@@ -43,6 +60,39 @@ export const store = new Vuex.Store({
   },
 
   actions: {
+    // 在meetup数据中存入一个数组，用于存储参与这个meetup的人员清单
+    register ({commit}, payload) {
+      commit('setLoading', true)
+      const updateRegister = payload.registerId
+      updateRegister.push(payload.userId)
+      AV.Object.createWithoutData('Meetups', payload.objectId).save({
+        registerId: updateRegister
+      })
+      .then(() => {
+        commit('setLoading', false)
+        commit('registeMeetup', payload)
+      })
+      .catch((error) => {
+        console.log(error)
+        commit('setLoading', false)
+      })
+    },
+    unRegister ({commit}, payload) {
+      commit('setLoading', true)
+      const updateRegister = payload.registerId
+      updateRegister.splice(updateRegister.indexOf(payload.userId), 1)
+      AV.Object.createWithoutData('Meetups', payload.objectId).save({
+        registerId: updateRegister
+      })
+      .then(() => {
+        commit('setLoading', false)
+        commit('unRegisteMeetup', payload)
+      })
+      .catch((error) => {
+        console.log(error)
+        commit('setLoading', false)
+      })
+    },
     updateMeetupData ({commit}, payload) {
       commit('setLoading', true)
       const updateObj = {}
@@ -79,7 +129,8 @@ export const store = new Vuex.Store({
             imageLink: data[key].attributes.imageLink,
             date: data[key].attributes.date,
             description: data[key].attributes.description,
-            creatorId: data[key].attributes.creatorId
+            creatorId: data[key].attributes.creatorId,
+            registerId: data[key].attributes.registerId
           })
         }
         commit('setLoadMeetups', meetups)
@@ -99,7 +150,8 @@ export const store = new Vuex.Store({
         location: payload.location,
         description: payload.description,
         date: payload.date.toString(),
-        creatorId: getters.user.id
+        creatorId: getters.user.id,
+        registerId: [getters.user.id]
       }
       const Meetup = AV.Object.extend('Meetups')
       new Meetup(meetup).save()

@@ -36,7 +36,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <add-meetup-register-dialog :objectId = "meetup.id"></add-meetup-register-dialog>
+            <add-meetup-register-dialog v-bind:meetup="meetup"></add-meetup-register-dialog>
           </v-card-actions>
         </v-card>
       </v-flex>

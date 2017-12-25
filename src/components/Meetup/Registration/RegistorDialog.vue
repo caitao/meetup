@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  props: ['objectId'],
+  props: ['meetup'],
   data () {
     return {
       registerDialogShow: false
@@ -45,13 +45,26 @@ export default {
   },
   computed: {
     userIsRegistered () {
-      return this.$store.getters.user.registeredMeetups.findIndex(meetupId => {
-        return meetupId === this.objectId
+      return this.meetup.registerId.findIndex(userId => {
+        return userId === this.$store.getters.user.id
       }) >= 0
     }
   },
   methods: {
     onAgree () {
+      if (this.userIsRegistered) {
+        this.$store.dispatch('unRegister', {
+          objectId: this.meetup.objectId,
+          userId: this.$store.getters.user.id,
+          registerId: this.meetup.registerId
+        })
+      } else {
+        this.$store.dispatch('register', {
+          objectId: this.meetup.objectId,
+          userId: this.$store.getters.user.id,
+          registerId: this.meetup.registerId
+        })
+      }
     }
   }
 }
