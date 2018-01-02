@@ -12,7 +12,7 @@ export default {
       state.meetups.push(payload)
     },
     updateMeetup (state, payload) {
-      const meetup = this.state.meetups.find(meetup => {
+      const meetup = state.meetups.find(meetup => {
         return meetup.objectId === payload.objectId
       })
       if (payload.title) {

@@ -40,7 +40,7 @@
     methods: {
       onSaveChanges () {
         const newDate = new Date(this.meetup.date)
-        const newDay = new Date(this.editableDate).getUTCDate()
+        const newDay = new Date(this.editableDate).getUTCDate() - 1
         const newMonth = new Date(this.editableDate).getUTCMonth()
         const newYear = new Date(this.editableDate).getFullYear()
         newDate.setUTCDate(newDay)
