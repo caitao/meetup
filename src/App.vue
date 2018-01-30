@@ -4,7 +4,7 @@
      <v-list class="pa-0">
        <v-list-tile avatar tag="div">
          <v-list-tile-avatar>
-           <img src="https://randomuser.me/api/portraits/men/85.jpg" />
+           <img src="http://ac-oylu8hce.clouddn.com/ef48afeb446e4c79244b.jpg" />
          </v-list-tile-avatar>
          <v-list-tile-content>
            <v-list-tile-title>caitao</v-list-tile-title>
