@@ -93,6 +93,7 @@ export default {
 </script>
 
 <style lang="stylus">
-  @import './stylus/main'
+  @import './assets/style/main'
+  @import './assets/style/material-icons.css'
 </style>
 © 2017 GitHub, Inc.
